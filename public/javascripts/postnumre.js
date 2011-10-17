@@ -1,5 +1,5 @@
 $(function () {
-	var url = 'http://127.0.0.1:3000/postnumre';
+	var url = 'postnumre';
 	$.getJSON(url, function (postnumre) {
 		var data = [];
   	$.each(postnumre, function (i, postnummer) {
