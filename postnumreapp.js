@@ -91,7 +91,7 @@ app.get('/postnumre', function(req, res){
 	var urlquery= url.parse(req.url, true).query;
 	var query= {};
 	if (urlquery.q) {
-		var reg= new RegExp(wildcard(urlquery.q),'gi');
+		var reg= new RegExp(wildcard('*'+urlquery.q+'*'),'gi');
 		query.$or= [];
 		query.$or.push({'postnr':reg});
 		query.$or.push({'gade':reg});
@@ -200,6 +200,9 @@ app.post('/upload', function(req, res){
 var conn = new Db('postdanmark', new Server("localhost", 27017, {}), {});
 var db;
 conn.open(function(err, database) {
+	 if (err) {
+		console.warn('Database ikke åbnet: ' + err.message);
+	}
 	db= database;
 	app.listen(3000);
 	console.log("Express server listening on port %d", app.address().port);
