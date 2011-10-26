@@ -16,8 +16,10 @@ var app = module.exports = express.createServer();
 // Configuration
 
 app.configure(function(){
+	app.use(express.logger('default'));
   app.set('views', __dirname + '/views');
   app.set('view engine', 'jade');
+	app.enable('jsonp callback');
   app.use(express.bodyParser());
   app.use(express.methodOverride());
   app.use(app.router);
@@ -25,6 +27,7 @@ app.configure(function(){
 });
 
 app.configure('development', function(){
+	app.use(express.logger('dev'));
   app.use(express.errorHandler({ dumpExceptions: true, showStack: true })); 
 });
 
@@ -35,9 +38,10 @@ app.configure('production', function(){
 // Routes
 
 app.get('/', function(req, res){
-	fs.readFile(__dirname + '/public/index.html', 'utf8', function(err, text){
-       res.end(text);
-   });
+	res.sendfile(__dirname + '/public/index.html');
+//	fs.readFile(__dirname + '/public/index.html', 'utf8', function(err, text){
+//       res.end(text);
+//   });
 });
 
 function wildcard(s) {
@@ -62,25 +66,17 @@ app.get('/postnumre/:id', function(req, res){
 		cursor.toArray(function(err, docs) {
 			if (err) {
 				console.warn('err: ' + err);
-				res.writeHead(500, {'content-type': 'application/json; charset=utf-8'});
-				res.end();
+				res.json('Fejl: '+err, 500);
 				return;
 			}
 			else {					
 				if (docs.length !== 1) {	
-					console.log('Postnummer findes ikke');		
-					res.writeHead(404, {'content-type': 'application/json; charset=utf-8'});
-					res.end();
+					console.log('Postnummer findes ikke');
+					res.json('Ukendt postnummer',404);
 					return;
 				}
-				else {
-					res.writeHead(200, {'content-type': 'application/json; charset=utf-8'});
-					if (urlquery.callback) {
-						res.end(urlquery.callback+'('+JSON.stringify(docs[0])+')');
-					}
-					else {						
-						res.end(JSON.stringify(docs[0]));
-					}
+				else {					
+						res.json(docs[0]);
 				}
 			}
 		});
@@ -122,26 +118,18 @@ app.get('/postnumre', function(req, res){
 	db.collection('postnumre', function(err, collection) {
 		if (err) {
 			console.warn(err.message);
-			res.writeHead(500, {'content-type': 'application/json; charset=utf-8'});
-			res.end();
+			res.json("fejl: "+err,500);
 			return;
 		}
 		var cursor = collection.find(query, {_id:0}, urlquery.maxantal?{limit:urlquery.maxantal}:{});
 		cursor.toArray(function(err, docs) {
 			if (err) {
 				console.warn('err: ' + err);
-				res.writeHead(500, {'content-type': 'application/json; charset=utf-8'});
-				res.end();
+				res.json("fejl: "+err,500);
 				return;
 			}
-			else {
-				res.writeHead(200, {'content-type': 'application/json; charset=utf-8'});
-				if (urlquery.callback) {
-					res.end(urlquery.callback+'('+JSON.stringify(docs)+')');
-				}
-				else {						
-					res.end(JSON.stringify(docs));
-				}
+			else {					
+					res.json(docs);
 			}
 		});
 	});

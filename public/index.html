@@ -16,6 +16,7 @@
 	
 	<script type="text/javascript" src="javascripts/jquery-ui-1.8.16.custom/js/jquery-1.6.2.min.js"></script>
 	<script type="text/javascript" src="javascripts/jquery-ui-1.8.16.custom/js/jquery-ui-1.8.16.custom.min.js"></script>
+	<script type="text/javascript" src="javascripts/bootstrap-scrollspy.js"></script>
 	<script type="text/javascript" src="javascripts/postnumre.js"></script>
 
     <link rel="shortcut icon" href="favicon.ico">
@@ -23,46 +24,55 @@
 
   <body>
 
-    <div class="topbar">
+    <div id="topbar" class="topbar" data-scrollspy="scrollspy" >
       <div class="fill">
         <div class="container">
           <a class="brand" href="/">Postnumre</a>
           <ul class="nav">
-            <li class="active"><a href="/">Home</a></li>
+            <li class="active"><a href="#home">Home</a></li>
             <li><a href="#about">About</a></li>
             <li><a href="#contact">Contact</a></li>
           </ul>
-          <form action="" class="pull-right">
-            <input class="input-small" type="text" placeholder="Username">
-            <input class="input-small" type="password" placeholder="Password">
-            <button class="btn" type="submit">Sign in</button>
-          </form>
         </div>
       </div>
     </div>
 
-    <div class="container">
+   <div class="container" class="tabs-content">
 
-      <div class="content">
-        <div class="page-header">
-          <h1>Søgning <small>Find postnummeret</small></h1>
-        </div>
-        <div class="row">
-          <div class="span10">	
-			<label for="q">Søg: </label>
-			<input class="xlarge" id="q" name="q" size="30" type="text">
-         </div>
-          <div class="span4">
-            <h3>Secondary content</h3>
-          </div>
-        </div>
-      </div>
+      	<div id='home' class="content">
+	        <div class="page-header">
+	          <h1>Søgning <small>Find postnummeret</small></h1>
+	        </div>
+	        <div class="row">
+	          <div class="span10">	
+				<label for="q">Søg: </label>
+				<input class="xlarge" id="q" name="q" size="30" type="text">
+	         </div>
+	          <div class="span4">
+	          </div>
+	        </div>
+	      </div>
+	
+			<div id='about' class="content">
+		        <div class="page-header">
+		          <h1>Om <small>postnumre</small></h1>
+		        </div>
+		        <div class="row">
+		          <div class="span10">	
+
+		         </div>
+		          <div class="span4">
+		          </div>
+		        </div>
+		    </div>
+
 
       <footer>
-        <p>© Company 2011</p>
+        <p>OIOREST</p>
       </footer>
 
-    </div> <!-- /container -->
+    </div> <!-- /container --> 
+
 
   
 
