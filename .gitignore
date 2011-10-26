@@ -1,0 +1,6 @@
+node_modules/
+logs/
+pids/
+public/javascripts/jquery-ui-1.8.16.custom/
+public/javascripts/.DS_Store
+public/postnumre.csv
