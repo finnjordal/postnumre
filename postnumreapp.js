@@ -16,22 +16,30 @@ var app = module.exports = express.createServer();
 // Configuration
 
 app.configure(function(){
-	app.use(express.logger('default'));
+	//app.favicon(__dirname + '/public/favicon.ico'); 
   app.set('views', __dirname + '/views');
   app.set('view engine', 'jade');
 	app.enable('jsonp callback');
-  app.use(express.bodyParser());
   app.use(express.methodOverride());
-  app.use(app.router);
-  app.use(express.static(__dirname + '/public'));
 });
 
 app.configure('development', function(){
 	app.use(express.logger('dev'));
+  app.use(require('connect').bodyParser());
+	app.use(app.router);
+	app.use(express.staticCache());
+	app.use(express.static(__dirname + '/public'));
   app.use(express.errorHandler({ dumpExceptions: true, showStack: true })); 
+	console.log(process.env);
 });
 
 app.configure('production', function(){
+	var oneDay = 86400000;
+	app.use(express.logger({format: 'default', stream: fs.createWriteStream(__dirname + '/logs/log', {flags: 'a'})}));
+  app.use(require('connect').bodyParser());
+  app.use(app.router);
+	app.use(express.staticCache());
+	app.use(express.static(__dirname + '/public'), { maxAge: oneDay });
   app.use(express.errorHandler()); 
 });
 
@@ -48,6 +56,10 @@ function wildcard(s) {
 	s= '^' + s + '$';
 	return s.replace(/\*/g,'(.*)')
 }
+app.get('/hej', auth, function(req,res) {
+	res.writeHead(200);
+	res.end('protected page');
+});
 
 app.get('/postnumre/:id', function(req, res){
 	var urlquery= url.parse(req.url, true).query;
@@ -135,14 +147,52 @@ app.get('/postnumre', function(req, res){
 	});
 });
 
-app.post('/upload', function(req, res){
+var auth = express.basicAuth(function(user,pass,next) {
+	console.log('user: '+user+', password: '+pass);
+	db.collection('brugere', function(err, collection) {
+		if (err) {
+			console.warn(err.message);
+			next(new Error('Forkert brugernavn eller password'));
+		}
+		else {		
+			var query= {};
+			query.navn= user;
+			collection.find(query).toArray(function(err, docs) {
+				console.log('docs.length: '+docs.length);
+				if (err) {
+					console.warn('err: ' + err);
+					next(new Error('Forkert brugernavn eller password'));
+				}
+				else if (docs.length === 0) {	
+					console.warn("forkert brugernavn");
+					next(new Error('Forkert brugernavn eller password'));
+				}
+				else if (docs[0].password !== pass) {
+					console.warn("forkert password");
+					next(new Error('Forkert brugernavn eller password'));
+				}
+				else {
+					next(null,{name: docs[0].navn});
+					console.log('user ok');
+				}
+			});
+		}
+	});
+}, 'Admin area');
+
+app.get('/hej',auth,function(req,res){
+	res.writeHead('200');
+	res.end('protected area');
+});
+
+app.post('/upload', auth, function(req, res){
 	var nr= 0;
 	var form = new formidable.IncomingForm();
 	form.keepExtensions = true;
-  form.parse(req, function(err, fields, files) {
-  	db.dropDatabase(function(err, result) {
-    	db.collection('postnumre', function(err, collection) {
-  			res.writeHead(200, {'content-type': 'text/plain; charset=utf-8'});
+	form.parse(req, function(err, fields, files) {
+	 	db.dropCollection('postnumre',function(err, result) {
+	   	db.collection('postnumre', function(err, collection) {
+	 			res.writeHead(200, {'content-type': 'text/plain; charset=utf-8'});
 				console.log("efter open. err: "+err+"db: "+db);
 				console.log("file: "+files.upload.path);
 				fs.readFileSync(files.upload.path).toString().split('\n').forEach(function (line) {
@@ -163,10 +213,11 @@ app.post('/upload', function(req, res){
 						res.write(',');
 						res.write(fields[4]);
 						res.write(',');
-						res.write(fields[5]);
+						var land= landenavn(fields[5]);
+						res.write(land);
 			 			res.write('\n');
 						nr++;
-						collection.insert({'postnr':fields[0], 'navn':fields[1], 'gade':fields[2], 'firma':firma, 'provins':fields[4], 'land':fields[5]}, {safe:true}, function(err, objects) {
+						collection.insert({'postnr':fields[0], 'navn':fields[1], 'gade':fields[2], 'firma':firma, 'provins':fields[4], 'land':land}, {safe:true}, function(err, objects) {
 						  if (err) {
 								console.warn(err.message);
 								res.write('Fejl i skrivning: ' + err.message);
@@ -180,10 +231,26 @@ app.post('/upload', function(req, res){
 				console.log("før end");
 				res.end();
 				console.log("efter end");
-			});	
-		});	
-  });
+			});
+		});
+	});
 });
+
+function landenavn(kode) {
+	var navn= "";
+	switch (kode) {	
+	case '1':	
+		land= "Danmark";
+		break;
+	case '2':
+		land= "Grønland";
+		break;
+	case '3':
+		land= "Færøerne";
+		break;
+	}
+	return land;
+}
 
 var conn = new Db('postdanmark', new Server("localhost", 27017, {}), {});
 var db;

@@ -10,14 +10,69 @@ $(function () {
 		var a= $('#topbar li a[href='+id+']')[0];
 		var li= $(a).parent().addClass('active');
 	});
-	
+		
 	$.ajax({
 	  url:'postnumre',
-	  dataType: "jsonp",
-	  error: fejlikommunikation,
-	  jsonpCallback: 'getpostnumre'
+	  dataType: "json",
+	  error: fejlihentallepostnumre,
+		success: getpostnumre
 	});
+	
+	$('#søg').click(function(event) {
+		event.preventDefault();
+		$('#advmessage').empty();
+		$('#result').empty();
+		$('#advmessage').hide();
+		$('#tabel').hide();
+		var arguments= {};
+		var postnr= $.trim($('#postnr').val());
+		if (postnr.length>0) arguments['postnr']= postnr;
+		var navn= $.trim($('#navn').val());
+		if (navn.length>0) arguments['navn']= navn;
+		var gade= $.trim($('#gade').val());
+		if (gade.length>0) arguments['gade']= gade;
+		var firma= $.trim($('#firma').val());
+		if (firma.length>0) arguments['firma']= firma;
+		var land= $.trim($('#land').val());
+		if (land.length>0) arguments['land']= land;
+		$.ajax({
+		  url:'postnumre',
+			data: arguments,
+		  dataType: "json",
+		  error: fejlisøg,
+			success: vispostnumre
+		});
+	});
+	
+	$('#reset').click(function(event) {
+		$('#advmessage').hide();
+		$('#tabel').hide();		
+		$('#advmessage').empty();
+		$('#result').empty();	
+	});
+	
+		
+	$('#advmessage').hide();
+	$('#tabel').hide();
+		
+	$('#q').focus();
 });
+
+
+function vispostnumre(postnumre) {
+	$('#advmessage').show();
+	$('#tabel').show();
+	$('#advmessage').append('<p>'+postnumre.length+' postnumre fundet</p>');
+	$.each(postnumre, function (i, postnummer) {
+		$('#result').append('<tr><td>'+postnummer.postnr+'</td><td>'+postnummer.navn+'</td><td>'+postnummer.gade+'</td><td>'+postnummer.firma+'</td><td>'+postnummer.land+'</td></tr>');
+ 	});  
+  
+};
+
+fejlisøg = function (xhr, status, errorThrown) {	
+  var text= xhr.status + " " + xhr.statusText;
+	$("#advmessage").append("<div class='alert-message error' data-alert='alert'><a class='close' href='#'>×</a><p id='ajaxerror'>Kunne ikke hente postnumre (" + text +")</p></div>");		
+};
 
 function getpostnumre(postnumre) {
 	var data = [];
@@ -30,6 +85,7 @@ function getpostnumre(postnumre) {
 	});
 };
 
-fejlikommunikation = function (xhr, status, errorThrown) {
-  alert('Timeout fra postnumreservicen');
+fejlihentallepostnumre = function (xhr, status, errorThrown) {	
+  var text= xhr.status + " " + xhr.statusText;
+	$("#søgmessage").append("<div class='alert-message error' data-alert='alert'><a class='close' href='#'>×</a><p id='ajaxerror'>Kunne ikke hente postnumre (" + text +")</p></div>");		
 };
