@@ -82,13 +82,13 @@ app.get('/postnumre/:id', function(req, res){
 				return;
 			}
 			else {					
-				if (docs.length !== 1) {	
+				if (docs.length === 0) {	
 					console.log('Postnummer findes ikke');
 					res.json('Ukendt postnummer',404);
 					return;
 				}
 				else {					
-						res.json(docs[0]);
+						res.json(docs);
 				}
 			}
 		});
