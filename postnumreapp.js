@@ -25,7 +25,7 @@ app.configure(function(){
 
 app.configure('development', function(){
 	app.use(express.logger('dev'));
-  app.use(require('connect').bodyParser());
+  app.use(express.bodyParser());
 	app.use(app.router);
 	app.use(express.staticCache());
 	app.use(express.static(__dirname + '/public'));
@@ -36,7 +36,7 @@ app.configure('development', function(){
 app.configure('production', function(){
 	var oneDay = 86400000;
 	app.use(express.logger({format: 'default', stream: fs.createWriteStream(__dirname + '/logs/log', {flags: 'a'})}));
-  app.use(require('connect').bodyParser());
+  app.use(express.bodyParser());
   app.use(app.router);
 	app.use(express.staticCache());
 	app.use(express.static(__dirname + '/public'), { maxAge: oneDay });
