@@ -185,7 +185,7 @@ app.get('/hej',auth,function(req,res){
 	res.end('protected area');
 });
 
-app.post('/upload', auth, function(req, res){
+app.post('/upload', function(req, res){
 	console.log('/upload');
 	var nr= 0;
 	var form = new formidable.IncomingForm();
