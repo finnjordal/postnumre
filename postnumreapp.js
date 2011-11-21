@@ -192,19 +192,22 @@ app.post('/upload', auth, function(req, res){
 	console.log('éfter formidable');
 	form.keepExtensions = true;
 	console.log('før parse');
-	form.parse(req, function(err, fields, files) {
+	form.parse(req, function(err, fields, files) {		
+		console.log('efter parse');
 		if (err) {
 			console.warn(err.message);
 			res.json("fejl: "+err,500);
 			return;
 		}
 	 	db.dropCollection('postnumre',function(err, result) {
+			console.log('efter dropcollection');
 			if (err) {
 				console.warn(err.message);
 				res.json("fejl: "+err,500);
 				return;
 			}
 	   	db.collection('postnumre', function(err, collection) {
+				console.log('efter collection');
 				if (err) {
 					console.warn(err.message);
 					res.json("fejl: "+err,500);
