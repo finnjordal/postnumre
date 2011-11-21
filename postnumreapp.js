@@ -186,9 +186,12 @@ app.get('/hej',auth,function(req,res){
 });
 
 app.post('/upload', auth, function(req, res){
+	console.log('/upload');
 	var nr= 0;
 	var form = new formidable.IncomingForm();
+	console.log('éfter formidable');
 	form.keepExtensions = true;
+	console.log('før parse');
 	form.parse(req, function(err, fields, files) {
 		if (err) {
 			console.warn(err.message);
