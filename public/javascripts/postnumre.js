@@ -62,7 +62,7 @@ $(function () {
 function vispostnumre(postnumre) {
 	$('#advmessage').show();
 	$('#tabel').show();
-	$('#advmessage').append('<p>'+postnumre.length+' postnumre fundet</p>');
+	$('#advmessage').append('<p>'+postnumre.length+(postnumre.length==1?' resultat':' resultater')+'</p>');
 	$.each(postnumre, function (i, postnummer) {
 		$('#result').append('<tr><td>'+postnummer.postnr+'</td><td>'+postnummer.navn+'</td><td>'+postnummer.gade+'</td><td>'+postnummer.firma+'</td><td>'+postnummer.land+'</td></tr>');
  	});  

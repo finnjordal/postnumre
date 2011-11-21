@@ -190,8 +190,23 @@ app.post('/upload', auth, function(req, res){
 	var form = new formidable.IncomingForm();
 	form.keepExtensions = true;
 	form.parse(req, function(err, fields, files) {
+		if (err) {
+			console.warn(err.message);
+			res.json("fejl: "+err,500);
+			return;
+		}
 	 	db.dropCollection('postnumre',function(err, result) {
+			if (err) {
+				console.warn(err.message);
+				res.json("fejl: "+err,500);
+				return;
+			}
 	   	db.collection('postnumre', function(err, collection) {
+				if (err) {
+					console.warn(err.message);
+					res.json("fejl: "+err,500);
+					return;
+				}
 	 			res.writeHead(200, {'content-type': 'text/plain; charset=utf-8'});
 				console.log("efter open. err: "+err+"db: "+db);
 				console.log("file: "+files.upload.path);
