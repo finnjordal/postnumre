@@ -181,8 +181,7 @@ var auth = express.basicAuth(function(user,pass,next) {
 }, 'Admin area');
 
 app.get('/hej',auth,function(req,res){
-	res.writeHead('200');
-	res.end('protected area');
+	res.render('upload.jade',{antal: 7, title: 'Postnumre'})
 });
 
 app.post('/upload', auth, function(req, res){
@@ -195,32 +194,31 @@ app.post('/upload', auth, function(req, res){
 	form.parse(req, function(err, fields, files) {		
 		console.log('efter parse');
 		if (err) {
-			console.warn(err.message);
-			res.json("fejl: "+err,500);
+			errorresponse(err,res,'form.parse');
 			return;
 		}
-	 	db.dropCollection('postnumre',function(err, result) {
+		db.dropCollection('postnumre',function(err, result) {
 			console.log('efter dropcollection');
+			console.log(err);
 			if (err) {
-				console.warn(err.message);
-				res.json("fejl: "+err,500);
+				errorresponse(err,res,'dropCollection');
 				return;
 			}
-	   	db.collection('postnumre', function(err, collection) {
+			db.collection('postnumre', function(err, collection) {
 				console.log('efter collection');
 				if (err) {
-					console.warn(err.message);
-					res.json("fejl: "+err,500);
+					errorresponse(err,res,'collection');
 					return;
 				}
-	 			res.writeHead(200, {'content-type': 'text/plain; charset=utf-8'});
 				console.log("efter open. err: "+err+"db: "+db);
 				console.log("file: "+files.upload.path);
 				fs.readFileSync(files.upload.path).toString().split('\n').forEach(function (line) {
 					console.log("line: "+line);
 					var fields= line.split(';');
 					if (fields[0] !== 'Postnr.' && fields.length === 6) {	
-						console.log("fields[0]: "+fields[0]);							
+						var firma= fields[3].replace(/""/g,"'").replace(/"/g,"").replace(/'/g,'"');
+						var land= landenavn(fields[5]);
+/*						console.log("fields[0]: "+fields[0]);							
 			   		res.write(nr.toString());
 						res.write(':');
 						res.write(fields[0]);
@@ -229,33 +227,37 @@ app.post('/upload', auth, function(req, res){
 						res.write(',');
 						res.write(fields[2]);
 						res.write(',');
-						var firma= fields[3].replace(/""/g,"'").replace(/"/g,"").replace(/'/g,'"');
 						res.write(firma);
 						res.write(',');
 						res.write(fields[4]);
 						res.write(',');
-						var land= landenavn(fields[5]);
 						res.write(land);
-			 			res.write('\n');
+			 			res.write('\n');*/
 						nr++;
 						collection.insert({'postnr':fields[0], 'navn':fields[1], 'gade':fields[2], 'firma':firma, 'provins':fields[4], 'land':land}, {safe:true}, function(err, objects) {
-						  if (err) {
-								console.warn(err.message);
-								res.write('Fejl i skrivning: ' + err.message);
+							if (err) {
+								errorresponse(err,res,'collection.insert');
+								return;
 							}
-						  if (err && err.message.indexOf('E11000 ') !== -1) {
+							if (err && err.message.indexOf('E11000 ') !== -1) {
 						     // this _id was already inserted in the database
 						  }
 						});
 					};
 				});
-				console.log("før end");
-				res.end();
-				console.log("efter end");
+				res.render('upload.jade',{antal: nr, title: 'Postnumre'})
+//				res.write(nr + " postnumre uploaded");
+//				res.render('upload', {antal: nr});
 			});
 		});
 	});
 });
+
+function errorresponse(err,res,text) {		
+	console.log(text + ': ' + err.message);
+	res.writeHead(500);
+	res.end("Fejl på web sitet ("+err.message+') - prøv igen senere');	
+}
 
 function landenavn(kode) {
 	var navn= "";
