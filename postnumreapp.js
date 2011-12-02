@@ -1,6 +1,3 @@
-/**
- * Module dependencies.
- */
 var util = require('util');
 var express = require('express');
 var fs = require('fs');
@@ -10,13 +7,12 @@ var url = require("url");
 var Db = require('mongodb').Db,
   Conn = require('mongodb').Connection,
   Server = require('mongodb').Server;
-
+  
 var app = module.exports = express.createServer();
 
 // Configuration
 
 app.configure(function(){
-	//app.favicon(__dirname + '/public/favicon.ico'); 
   app.set('views', __dirname + '/views');
   app.set('view engine', 'jade');
 	app.enable('jsonp callback');
@@ -56,6 +52,7 @@ function wildcard(s) {
 	s= '^' + s + '$';
 	return s.replace(/\*/g,'(.*)')
 }
+
 app.get('/hej', auth, function(req,res) {
 	res.writeHead(200);
 	res.end('protected page');
