@@ -280,5 +280,5 @@ conn.open(function(err, database) {
 	}
 	db= database;
 	app.listen(3000);
-	console.log("Express server listening on port %d", app.address().port);
+	console.log("Express server listening on port %d", 3000); //app.address().port);
 });
