@@ -10,6 +10,11 @@ var Db = require('mongodb').Db,
   
 var app = module.exports = express.createServer();
 
+//process.on('uncaughtException',function(err) {
+//  console.log('uncaughtException, stack:'+err.stack);
+//  process.exit(1);
+//});
+
 // Configuration
 
 app.configure(function(){
@@ -84,7 +89,9 @@ app.get('/postnumre/:id', function(req, res){
 					res.json('Ukendt postnummer',404);
 					return;
 				}
-				else {					
+				else {
+  			  	res.statusCode= 200;
+  			  	res.setHeader("Cache-Control", "public, max-age=86400");					
 						res.json(docs);
 				}
 			}
@@ -106,6 +113,7 @@ app.get('/postnumre', function(req, res){
 	}
 	else {
 		if (urlquery.gade) {
+  	  throw new Error('oh no');
 			query.gade= new RegExp(wildcard(urlquery.gade),'gi');
 		}
 		if (urlquery.postnr) {
@@ -137,7 +145,9 @@ app.get('/postnumre', function(req, res){
 				res.json("fejl: "+err,500);
 				return;
 			}
-			else {					
+			else {
+			  	res.statusCode= 200;
+			  	res.setHeader("Cache-Control", "public, max-age=86400");
 					res.json(docs);
 			}
 		});

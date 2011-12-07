@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+  <meta charset="utf-8" />
+  <title>autocomplete</title>
+
+  <link href="../javascripts/jquery-ui-1.8.16.custom/css/ui-lightness/jquery-ui-1.8.16.custom.css" rel="stylesheet">
+
+  <script type="text/javascript" src="../javascripts/jquery-ui-1.8.16.custom/js/jquery-1.6.2.min.js"></script>
+  <script type="text/javascript" src="../javascripts/jquery-ui-1.8.16.custom/js/jquery-ui-1.8.16.custom.min.js"></script>
+  <script type="text/javascript">
+  $(function () {
+
+    $.ajax({
+      url:'../postnumre',
+      dataType: 'jsonp',
+      error: fejlihentallepostnumre,
+      success: getpostnumre
+    });
+
+    function getpostnumre(postnumre) {
+      var data = [];
+      $.each(postnumre, function (i, postnummer) {
+        data[i] = postnummer.postnr + " " + postnummer.navn + (postnummer.gade.length > 0?", " + postnummer.gade:"") + 		(postnummer.firma.length > 0?", " + postnummer.firma:"") ;
+      });  
+      $('#q').autocomplete({
+        source: data,
+        minLength: 1,
+        select: function (event, ui) {
+          var reg= /(\d+) ([^,$]+)/;
+          var result= reg.exec(ui.item.value);
+          var postnr= $.trim(result[1]);
+          var postnrnavn= $.trim(result[2]);
+          $('#result').empty().append('<p>Postnummer: '+postnr+'</p>').append('<p>Postnummernavn: '+postnrnavn+'</p>');
+        }
+      });
+    };
+
+    function fejlihentallepostnumre(xhr, status, errorThrown) {	
+      var text= xhr.status + " " + xhr.statusText;
+      alert('Kunne ikke hente postnumre: ' + text);		
+    };
+    
+  });
+  </script>
+
+</head>
+<body>
+  <form>
+    <label for="q">Søg</label>
+    <input id="q" type="search" autofocus>
+  </form>
+  <div id='result'></div>
+</body>
+</html>

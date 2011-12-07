@@ -69,27 +69,28 @@
       </div>
       <div class="row">
         <div class="span10">
-				<form class='form-stacked'>
-					<label for="postnr">Postnummer</label>
-					<input class="xlarge" id="postnr" name="postnr" type="search" autofocus placeholder='2400'>
-					<label for="navn">Navn</label>
-					<input class="xlarge" id="navn" name="navn" type="search"placeholder='*aller*'>
-					<label for="gade">Gade</label>
-					<input class="xlarge" id="gade" name="gade" type="search" placeholder='*vej'>
-					<label for="firma">Firma</label>
-					<input class="xlarge" id="firma" name="firma" type="search"  placeholder='j.*'>					
-					<label for="land">Land</label>
-					<select class="xlarge" id="land" name="land">
-						<option></option>
-						<option>Danmark</option>
-						<option>Grønland</option>
-						<option>Færøerne</option>
-					</select>
-					<div class="actions">
-						<input type="submit" class="btn primary" value="Søg" id='søg'>
-						<button type="reset" class="btn" id='reset'>Ryd</button>
-					</div>				
-					<div id='advmessage'></div>
+						<form class='form-stacked'>
+						<label for="postnr">Postnummer</label>
+						<input class="xlarge" id="postnr" name="postnr" type="search" autofocus placeholder='2400'>
+						<label for="navn">Navn</label>
+						<input class="xlarge" id="navn" name="navn" type="search"placeholder='*aller*'>
+						<label for="gade">Gade</label>
+						<input class="xlarge" id="gade" name="gade" type="search" placeholder='*vej'>
+						<label for="firma">Firma</label>
+						<input class="xlarge" id="firma" name="firma" type="search"  placeholder='j.*'>					
+						<label for="land">Land</label>
+						<select class="xlarge" id="land" name="land">
+							<option></option>
+							<option>Danmark</option>
+							<option>Grønland</option>
+							<option>Færøerne</option>
+						</select>
+						<div class="actions">
+							<input type="submit" class="btn primary" value="Søg" id='søg'>
+							<button type="reset" class="btn" id='reset'>Ryd</button>
+						</div>
+					</form>	
+					<div id='advmessage'></div>			
 					<table id='tabel'>
 						<thead>
 						<tr><th>Postnr</th><th>Navn</th><th>Gade</th><th>Firma</th><th>Land</th></tr>
@@ -101,7 +102,6 @@
 							document.getElementById("postnr").focus();
 						}
 					</script>
-				</form>
        	</div>
       </div>
     </div>
@@ -112,7 +112,7 @@
      	</div>
      	<div class="row">
        	<div class="span10">	
-
+	<p>Formålet med nærværende web site er at udstille postnumre på en sådan måde, at de nemt kan anvendes af andre programmer. </p>
        	</div>
      	</div>
    	</div>
@@ -157,6 +157,8 @@
 					<p><a href="postnumre?q=holm">http://postnumre.oiorest.dk/postnumre?q=holm</a></p>
 					<h3>Eksisterer postnummeret 3450?</h3>
 					<p><a href="postnumre/3450">http://postnumre.oiorest.dk/3450</a></p>
+					<h2>Kodeeksempel</h2>
+					<p>Et kodeeksempel på hvordan web API'et kan anvendes i forbindelse med autocomplete kan du finde <a href='kodeeksempler/autocomplete.html'>her</a>.</p>
        	</div> 
      	</div>
    	</div>
@@ -170,7 +172,7 @@
        	<div class="span10">
 					<p>Post Danmark administrerer postnumrene. Det resulterer til tider i ændringer. For at holde dette web site opdateret med de seneste postnumre kan det være nødvendigt at opdatere sitets data. Hvis man er administrator på web sitet kan det gøres på følgende måde: </p>
 					 <ol>
-						 <li>Hent <a href='http://www.postdanmark.dk/contentfull.dk'>Excel filen - indeholdende de gyldige postnumre - fra Post Danmark</a>.</li>
+						 <li>Hent Excel filen - indeholdende de gyldige postnumre - fra <a href='http://www.postdanmark.dk/da/Privat/Kundeservice/postnummerkort/Sider/home.aspx'>Post Danmark</a>.</li>
 						 <li>Åben den i Excel og gem den som en kommasepareret fil.</li>
 						 <li>Upload den kommaseparerede fil nedenfor</li>
 						<ol>

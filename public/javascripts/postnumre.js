@@ -1,7 +1,8 @@
 $(function () {
 	$('#topbar').scrollSpy();
 	$('.content').hide();
-	$('#home').show();
+	var hash= window.location.hash;
+	if (hash) $(hash).show(); else $('#home').show();
 	$('#topbar a').click(function(event){
 		$('#topbar li').removeClass('active');
 		$('.content').hide();
@@ -62,7 +63,7 @@ $(function () {
 function vispostnumre(postnumre) {
 	$('#advmessage').show();
 	$('#tabel').show();
-	$('#advmessage').append('<p>'+postnumre.length+(postnumre.length==1?' resultat':' resultater')+'</p>');
+	$('#advmessage').empty().append('<p>'+postnumre.length+(postnumre.length==1?' resultat':' resultater')+'</p>');
 	$.each(postnumre, function (i, postnummer) {
 		$('#result').append('<tr><td>'+postnummer.postnr+'</td><td>'+postnummer.navn+'</td><td>'+postnummer.gade+'</td><td>'+postnummer.firma+'</td><td>'+postnummer.land+'</td></tr>');
  	});  
@@ -71,7 +72,7 @@ function vispostnumre(postnumre) {
 
 fejlisøg = function (xhr, status, errorThrown) {	
   var text= xhr.status + " " + xhr.statusText;
-	$("#advmessage").append("<div class='alert-message error' data-alert='alert'><a class='close' href='#'>×</a><p id='ajaxerror'>Kunne ikke hente postnumre (" + text +")</p></div>");		
+	$("#advmessage").empty().show().append("<div class='alert-message error' data-alert='alert'><a class='close' href='#'>×</a><p id='ajaxerror'>Kunne ikke hente postnumre (" + text +")</p></div>");		
 };
 
 function getpostnumre(postnumre) {
