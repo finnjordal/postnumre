@@ -22,7 +22,7 @@ $(function () {
 	$('#søg').click(function(event) {
 		event.preventDefault();
 		$('#advmessage').empty();
-		$('#result').empty();
+		$('#advresult').empty();
 		$('#advmessage').hide();
 		$('#tabel').hide();
 		var arguments= {};
@@ -49,7 +49,7 @@ $(function () {
 		$('#advmessage').hide();
 		$('#tabel').hide();		
 		$('#advmessage').empty();
-		$('#result').empty();	
+		$('#advresult').empty();	
 	});
 	
 		
@@ -65,7 +65,7 @@ function vispostnumre(postnumre) {
 	$('#tabel').show();
 	$('#advmessage').empty().append('<p>'+postnumre.length+(postnumre.length==1?' resultat':' resultater')+'</p>');
 	$.each(postnumre, function (i, postnummer) {
-		$('#result').append('<tr><td>'+postnummer.postnr+'</td><td>'+postnummer.navn+'</td><td>'+postnummer.gade+'</td><td>'+postnummer.firma+'</td><td>'+postnummer.land+'</td></tr>');
+		$('#advresult').append('<tr><td>'+postnummer.postnr+'</td><td>'+postnummer.navn+'</td><td>'+postnummer.gade+'</td><td>'+postnummer.firma+'</td><td>'+postnummer.land+'</td></tr>');
  	});  
   
 };
@@ -82,7 +82,14 @@ function getpostnumre(postnumre) {
 	});  
   $('#q').autocomplete({
     source: data,
-    minLength: 1
+    minLength: 1,
+    select: function (event, ui) {
+      var reg= /(\d+) ([^,$]+)/;
+      var result= reg.exec(ui.item.value);
+      var postnr= $.trim(result[1]);
+      var postnrnavn= $.trim(result[2]);
+      $('#result').empty().append('<p>Postnummer: '+postnr+'</p>').append('<p>Postnummernavn: '+postnrnavn+'</p>');
+    }
 	});
 };
 

@@ -35,7 +35,7 @@ app.configure('development', function(){
 });
 
 app.configure('production', function(){
-	var oneDay = 86400000;
+  var oneDay = 86400000;
 	app.use(express.logger({format: 'default', stream: fs.createWriteStream(__dirname + '/logs/log', {flags: 'a'})}));
   app.use(express.bodyParser());
   app.use(app.router);
@@ -285,10 +285,12 @@ function landenavn(kode) {
 var conn = new Db('postdanmark', new Server("localhost", 27017, {}), {});
 var db;
 conn.open(function(err, database) {
-	 if (err) {
-		console.warn('Database ikke åbnet: ' + err.message);
-	}
-	db= database;
-	app.listen(3000);
-	console.log("Express server listening on port %d", app.address().port);
+  if (err) {
+    console.warn('Database ikke åbnet: ' + err.message);
+  }
+  else {   
+ 	  db= database;
+ 	  app.listen(3000);
+ 	  console.log("Express server listening on port %d", 3000);
+  }
 });

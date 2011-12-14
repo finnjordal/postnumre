@@ -22,6 +22,20 @@
 	<script type="text/javascript" src="javascripts/postnumre.js"></script>
 
    <link rel="shortcut icon" href="favicon.ico">
+   
+   <script type="text/javascript">
+
+     var _gaq = _gaq || [];
+     _gaq.push(['_setAccount', 'UA-3463228-8']);
+     _gaq.push(['_trackPageview']);
+
+     (function() {
+       var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+       ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+       var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+     })();
+
+   </script>
 </head>
 
 <body>
@@ -58,6 +72,7 @@
 						}
 					</script>
 				</form>
+        <div id='result'></div>
 				<div id='søgmessage'></div>
        	</div>
       </div>
@@ -95,7 +110,7 @@
 						<thead>
 						<tr><th>Postnr</th><th>Navn</th><th>Gade</th><th>Firma</th><th>Land</th></tr>
 						</thead>
-						<tbody id="result" />
+						<tbody id="advresult" />
 					</table>
 					<script>
 						if (!("autofocus" in document.createElement("input"))) {
@@ -113,6 +128,9 @@
      	<div class="row">
        	<div class="span10">	
 	<p>Formålet med nærværende web site er at udstille postnumre på en sådan måde, at de nemt kan anvendes af andre programmer. </p>
+	<p>Servicen er udviklet af <a href='http://digst.dk'>Digitaliseringsstyrelsen</a>, som et eksempel på en service, som kan lette udviklingen af andre applikationer. I dette tilfælde gøre det lettere at udvikle applikationer, som rummer indtastning og validering af postnumre.</p>
+	<p>Data stammer fra <a href='http://www.postdanmark.dk/da/Privat/Kundeservice/postnummerkort/Sider/home.aspx'>Post Danmark</a>.</p>
+	<p>Kontaktperson: <a href="mailto:fhj@itst.dk">Finn Jordal</a></p>
        	</div>
      	</div>
    	</div>
@@ -187,7 +205,7 @@
 	
 
    <footer>
-      <p><small>OIOREST</small></p>
+      <p><small><a href='http://oiorest.dk'>OIOREST</a></small></p>
     </footer>
 
   </div> <!-- /container --> 
