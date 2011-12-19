@@ -2,7 +2,7 @@ var util = require('util');
 var express = require('express');
 var fs = require('fs');
 var formidable = require("formidable");
-var sys = require("sys");
+var sys = require("util");
 var url = require("url");
 var Db = require('mongodb').Db,
   Conn = require('mongodb').Connection,
@@ -22,24 +22,20 @@ app.configure(function(){
   app.set('view engine', 'jade');
 	app.enable('jsonp callback');
   app.use(express.methodOverride());
-});
-
-app.configure('development', function(){
 	app.use(express.logger('dev'));
+	//app.use(express.logger({format: 'default', stream: fs.createWriteStream(__dirname + '/logs/log', {flags: 'a'})}));
   app.use(express.bodyParser());
 	app.use(app.router);
 	app.use(express.staticCache());
 	app.use(express.static(__dirname + '/public'));
+});
+
+app.configure('development', function(){
   app.use(express.errorHandler({ dumpExceptions: true, showStack: true })); 
-	console.log(process.env);
 });
 
 app.configure('production', function(){
-  var oneDay = 86400000;
-	app.use(express.logger({format: 'default', stream: fs.createWriteStream(__dirname + '/logs/log', {flags: 'a'})}));
-  app.use(express.bodyParser());
-  app.use(app.router);
-	app.use(express.staticCache());
+  var oneDay = 86400;
 	app.use(express.static(__dirname + '/public'), { maxAge: oneDay });
   app.use(express.errorHandler()); 
 });
@@ -291,6 +287,7 @@ conn.open(function(err, database) {
   else {   
  	  db= database;
  	  app.listen(3000);
- 	  console.log("Express server listening on port %d", 3000);
+ 	  console.log("Express server listening on port %d", app.address().port); 	  
+  	console.log('NODE_ENV: ' + process.env.NODE_ENV);
   }
 });
