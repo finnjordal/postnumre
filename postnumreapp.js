@@ -109,7 +109,6 @@ app.get('/postnumre', function(req, res){
 	}
 	else {
 		if (urlquery.gade) {
-  	  throw new Error('oh no');
 			query.gade= new RegExp(wildcard(urlquery.gade),'gi');
 		}
 		if (urlquery.postnr) {

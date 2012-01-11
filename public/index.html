@@ -63,7 +63,7 @@
       </div>
       <div class="row">
         <div class="span10">
-				<form class='form-stacked'>
+			  <div class='form-stacked'>
 					<label for="q">Søg</label>
 					<input class="xlarge" id="q" name="q" type="search" autofocus>
 					<script>
@@ -71,7 +71,7 @@
 							document.getElementById("q").focus();
 						}
 					</script>
-				</form>
+			  </div> 
         <div id='result'></div>
 				<div id='søgmessage'></div>
        	</div>
@@ -130,6 +130,7 @@
 	<p>Formålet med nærværende web site er at udstille postnumre på en sådan måde, at de nemt kan anvendes af andre programmer. </p>
 	<p>Servicen er udviklet af <a href='http://digst.dk'>Digitaliseringsstyrelsen</a>, som et eksempel på en service, som kan lette udviklingen af andre applikationer. I dette tilfælde gøre det lettere at udvikle applikationer, som rummer indtastning og validering af postnumre.</p>
 	<p>Data stammer fra <a href='http://www.postdanmark.dk/da/Privat/Kundeservice/postnummerkort/Sider/home.aspx'>Post Danmark</a>.</p>
+	<p>Kildeteksten til <em>postnumre web sitet</em> ligger på <a href='https://github.com/finnjordal/postnumre'>Github</a>.</p>
 	<p>Kontaktperson: <a href="mailto:fhj@itst.dk">Finn Jordal</a></p>
        	</div>
      	</div>
@@ -174,7 +175,7 @@
 					<h3>Postnumre, hvis navn mm. indeholder <em>holm</em> </h3>
 					<p><a href="postnumre?q=holm">http://postnumre.oiorest.dk/postnumre?q=holm</a></p>
 					<h3>Eksisterer postnummeret 3450?</h3>
-					<p><a href="postnumre/3450">http://postnumre.oiorest.dk/3450</a></p>
+					<p><a href="postnumre/3450">http://postnumre.oiorest.dk/postnumre/3450</a></p>
 					<h2>Kodeeksempel</h2>
 					<p>Et kodeeksempel på hvordan web API'et kan anvendes i forbindelse med autocomplete kan du finde <a href='kodeeksempler/autocomplete.html'>her</a>.</p>
        	</div> 
