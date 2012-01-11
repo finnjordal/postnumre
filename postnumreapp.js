@@ -105,7 +105,7 @@ app.get('/postnumre', function(req, res){
 		query.$or.push({'gade':reg});
 		query.$or.push({'navn':reg});
 		query.$or.push({'firma':reg});
-		console.log(util.inspect(query, true, null));
+		// console.log(util.inspect(query, true, null));
 	}
 	else {
 		if (urlquery.gade) {
