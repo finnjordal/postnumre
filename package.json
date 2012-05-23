@@ -4,8 +4,7 @@
   , "private": true
   , "dependencies": {
     "express": ">= 2.5.0",
-	  "formidable": ">= 1.0.6",
-	  "mongodb":"0.9.6-19",	
+	"mongodb": ">= 0.9.8",	
    	"jade": ">= 0.0.1"
   }
 }
