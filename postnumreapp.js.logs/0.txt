@@ -1,0 +1,5 @@
+debugger listening on port 5065
+Hejsa
+Før new Db
+Express server listening on port NaN
+NODE_ENV: undefined

@@ -9,6 +9,7 @@ var url = require("url");
 var Db = require('mongodb').Db,
   Conn = require('mongodb').Connection,
   Server = require('mongodb').Server;
+var apppath = '/postnumre';
 
 var app = module.exports = express.createServer();
 
@@ -44,8 +45,9 @@ app.configure('production', function () {
 
 // Routes
 
-app.get('/', function (req, res) {
+app.get(apppath + "/", function (req, res) {
     res.sendfile(__dirname + '/public/index.html');
+    res.end();
     //	fs.readFile(__dirname + '/public/index.html', 'utf8', function(err, text){
     //       res.end(text);
     //   });
@@ -56,12 +58,12 @@ function wildcard(s) {
     return s.replace(/\*/g, '(.*)')
 }
 
-app.get('/hej', auth, function (req, res) {
+app.get(apppath+'/hej', auth, function (req, res) {
     res.writeHead(200);
     res.end('protected page');
 });
 
-app.get('/postnumre/:id', function (req, res) {
+app.get(apppath + '/postnumre/:id', function (req, res) {
     var urlquery = url.parse(req.url, true).query;
     var id = req.params.id;
     console.log('id: ' + id);
@@ -97,7 +99,7 @@ app.get('/postnumre/:id', function (req, res) {
     });
 });
 
-app.get('/postnumre', function (req, res) {
+app.get(apppath + '/postnumre', function (req, res) {
     var urlquery = url.parse(req.url, true).query;
     var query = {};
     if (urlquery.q) {
@@ -184,11 +186,11 @@ var auth = express.basicAuth(function (user, pass, next) {
     });
 }, 'Admin area');
 
-app.get('/hej', auth, function (req, res) {
+app.get(apppath + '/hej', auth, function (req, res) {
     res.render('upload.jade', { antal: 7, title: 'Postnumre' })
 });
 
-app.post('/upload', auth, function (req, res) {
+app.post(apppath + '/upload', auth, function (req, res) {
     var nr = 0;
     console.log(util.inspect({ body: req.body, files: req.files }));
     db.dropCollection('postnumre', function (err, result) {
@@ -250,6 +252,10 @@ app.post('/upload', auth, function (req, res) {
     });
 });
 
+app.get('*', function (req, res) {
+    res.send('what???', 404);
+});
+
 function errorresponse(err, res, text) {
     console.log(text + ': ' + err.message);
     res.writeHead(500);
@@ -281,7 +287,8 @@ conn.open(function (err, database) {
     }
     else {
         db = database;
-        app.listen(3000);
+        // app.listen(3000);
+        app.listen(process.env.PORT);
         console.log("Express server listening on port %d", app.address().port);
         console.log('NODE_ENV: ' + process.env.NODE_ENV);
     }
