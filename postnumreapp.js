@@ -9,7 +9,16 @@ var url = require("url");
 var Db = require('mongodb').Db,
   Conn = require('mongodb').Connection,
   Server = require('mongodb').Server;
+
+/* iisnode
 var apppath = '/postnumre';
+var appport = process.env.PORT;
+*/
+
+/* andre */
+var apppath = '';
+var appport = 3000;
+
 
 var app = module.exports = express.createServer();
 
@@ -28,9 +37,9 @@ app.configure(function () {
     app.use(express.logger('dev'));
     //app.use(express.logger({format: 'default', stream: fs.createWriteStream(__dirname + '/logs/log', {flags: 'a'})}));
     app.use(express.bodyParser());
-    app.use(app.router);
     app.use(express.staticCache());
     app.use(express.static(__dirname + '/public'));
+    app.use(app.router);
 });
 
 app.configure('development', function () {
@@ -47,7 +56,7 @@ app.configure('production', function () {
 
 app.get(apppath + "/", function (req, res) {
     res.sendfile(__dirname + '/public/index.html');
-    res.end();
+    //res.end();
     //	fs.readFile(__dirname + '/public/index.html', 'utf8', function(err, text){
     //       res.end(text);
     //   });
@@ -254,6 +263,7 @@ app.post(apppath + '/upload', auth, function (req, res) {
 
 app.get('*', function (req, res) {
     res.send('what???', 404);
+    res.end();
 });
 
 function errorresponse(err, res, text) {
@@ -288,8 +298,8 @@ conn.open(function (err, database) {
     else {
         db = database;
         // app.listen(3000);
-        app.listen(process.env.PORT);
-        console.log("Express server listening on port %d", app.address().port);
-        console.log('NODE_ENV: ' + process.env.NODE_ENV);
+        app.listen(appport);
+        console.log("Express server listening on port %d", appport);
+        console.log('NODE_ENV: ' + appport);
     }
 });

@@ -1,5 +1,5 @@
 $(function () {
-	$('#topbar').scrollSpy();
+/*	$('#topbar').scrollSpy();
 	$('.content').hide();
 	var hash= window.location.hash;
 	if (hash) $(hash).show(); else $('#home').show();
@@ -10,7 +10,7 @@ $(function () {
 		$(id).show();
 		var a= $('#topbar li a[href='+id+']')[0];
 		var li= $(a).parent().addClass('active');
-	});
+	}); */
 		
 	$.ajax({
 	  url:'postnumre',
