@@ -1,6 +1,61 @@
 !!! 5
-html
+
+html(lang='da')
   head
-    title= title
-    link(rel='stylesheet', href='/stylesheets/style.css')
-  body!= body
+    meta(http-equiv="Content-Type", content="text/html; charset=UTF-8")
+    meta(charset="UTF-8")
+    title Postnumre
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    meta(name="description", content="Postnumrenes web API")
+    meta(name="author", content="Finn Jordal")
+    
+    //if lt IE 9
+      script(src='http://html5shim.googlecode.com/svn/trunk/html5.js')
+      
+    link(href="bootstrap/css/bootstrap.css", rel="stylesheet")
+    link(href="bootstrap/css/bootstrap-responsive.css", rel="stylesheet")
+    link(href="stylesheets/style.css", rel="stylesheet")
+    link(href="jquery/css/ui-lightness/jquery-ui-1.8.20.custom.css", rel="stylesheet")
+
+    link(rel="shortcut icon", href="favicon.ico")
+
+  body
+    div.navbar.navbar-fixed-top
+      div.navbar-inner
+        div.container
+          a.btn.btn-navbar(data-toggle="collapse", data-target=".nav-collapse") 
+            span.icon-bar
+            span.icon-bar
+            span.icon-bar
+          a.brand(href="/") Postnumre
+          div#topbar.nav-collapse
+            ul.nav
+              li.active
+                a(href='/') Søg
+              li
+                a(href='advsearch') Avanceret søgning
+              li
+                a(href='#api') Web API
+              li
+                a(href='#upload') Opdatering
+              li
+                a(href='#about') Om
+    
+    block content          
+
+    block scripts
+      script(src="jquery/js/jquery-1.7.2.min.js")
+      script(src="jquery/js/jquery-ui-1.8.20.custom.min.js")
+      script(src="bootstrap/js/bootstrap.js")
+      script(src="javascripts/postnumre.js")
+
+    script 
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-3463228-8']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();

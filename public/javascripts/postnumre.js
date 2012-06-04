@@ -19,11 +19,11 @@ $(function () {
 		success: getpostnumre
 	});
 	
-	$('#søg').click(function(event) {
+	$('#search').click(function(event) {
 		event.preventDefault();
-		$('#advmessage').empty();
+		$('#message').empty();
 		$('#advresult').empty();
-		$('#advmessage').hide();
+		$('#message').hide();
 		$('#tabel').hide();
 		var arguments= {};
 		var postnr= $.trim($('#postnr').val());
@@ -46,14 +46,14 @@ $(function () {
 	});
 	
 	$('#reset').click(function(event) {
-		$('#advmessage').hide();
+		$('#message').hide();
 		$('#tabel').hide();		
-		$('#advmessage').empty();
+		$('#message').empty();
 		$('#advresult').empty();	
 	});
 	
 		
-	$('#advmessage').hide();
+	$('#message').hide();
 	$('#tabel').hide();
 		
 	$('#q').focus();
@@ -61,9 +61,9 @@ $(function () {
 
 
 function vispostnumre(postnumre) {
-	$('#advmessage').show();
+	$('#message').show();
 	$('#tabel').show();
-	$('#advmessage').empty().append('<p>'+postnumre.length+(postnumre.length==1?' resultat':' resultater')+'</p>');
+	$('#message').empty().append('<p>'+postnumre.length+(postnumre.length==1?' resultat':' resultater')+'</p>');
 	$.each(postnumre, function (i, postnummer) {
 		$('#advresult').append('<tr><td>'+postnummer.postnr+'</td><td>'+postnummer.navn+'</td><td>'+postnummer.gade+'</td><td>'+postnummer.firma+'</td><td>'+postnummer.land+'</td></tr>');
  	});  
@@ -72,7 +72,7 @@ function vispostnumre(postnumre) {
 
 fejlisøg = function (xhr, status, errorThrown) {	
   var text= xhr.status + " " + xhr.statusText;
-	$("#advmessage").empty().show().append("<div class='alert-message error' data-alert='alert'><a class='close' href='#'>×</a><p id='ajaxerror'>Kunne ikke hente postnumre (" + text +")</p></div>");		
+	$("#message").empty().show().append("<div class='alert-message error' data-alert='alert'><a class='close' href='#'>×</a><p id='ajaxerror'>Kunne ikke hente postnumre (" + text +")</p></div>");		
 };
 
 function getpostnumre(postnumre) {
@@ -95,5 +95,5 @@ function getpostnumre(postnumre) {
 
 fejlihentallepostnumre = function (xhr, status, errorThrown) {	
   var text= xhr.status + " " + xhr.statusText;
-	$("#søgmessage").append("<div class='alert-message error' data-alert='alert'><a class='close' href='#'>×</a><p id='ajaxerror'>Kunne ikke hente postnumre (" + text +")</p></div>");		
+	$("#message").append("<div class='alert-message error' data-alert='alert'><a class='close' href='#'>×</a><p id='ajaxerror'>Kunne ikke hente postnumre (" + text +")</p></div>");		
 };

@@ -1,0 +1,48 @@
+extends layout
+
+block content
+  div#content.container
+    header.jumbotron.subhead
+      div.page-header
+        h1 Avanceret søgning
+    section
+      div.row
+        div.span10
+          form.well.form-vertical
+            label(for="postnr") Postnummer
+            input.xlarge#postnr(name="postnr", type="search", autofocus, placeholder='2400')
+            label(for="navn") Navn
+            input.xlarge#navn(name="navn", type="search", placeholder='*aller*')
+            label(for="gade") Gade
+            input.xlarge#gade(name="gade", type="search", placeholder='*vej')
+            label(for="firma") Firma
+            input.xlarge#firma(name="firma", type="search",  placeholder='j.*')
+            label(for="land") Land
+            select.xlarge#land(name="land")
+              option 
+              option Danmark
+              option Grønland
+              option Færøerne
+            div.form-actions
+              button#search.btn.btn-primary(type='submit') Sog
+              button#reset.btn(type="reset") Ryd
+          div#message
+          table#tabel.table
+            thead
+              tr
+                th Postnr
+                th Navn
+                th Gade
+                th Firma
+                th Land
+            tbody#advresult
+          script
+            if (!("autofocus" in document.createElement("input"))) {
+              document.getElementById("postnr").focus();
+            }
+
+block append scripts
+  script  
+    $('#topbar li').removeClass('active');
+    var a= $('#topbar li a[href=advsearch]')[0];
+    var li= $(a).parent().addClass('active');

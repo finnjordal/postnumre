@@ -1,0 +1,26 @@
+extends layout
+
+block content
+  div#content.container
+    header#search.jumbotron.subhead
+      div.page-header
+        h1 Fritekstsøgning
+        p Søgning i postnr, navn, vejnavn og firma
+    section
+      div.row
+        div.span10
+          div.form-stacked
+            label(for='q') Søg
+            input#q.xlarge(name="q", type="search", autofocus)
+            script                
+              if (!("autofocus" in document.createElement("input"))) {
+                document.getElementById("q").focus();
+              }
+          div#result
+          div#message
+
+block append scripts
+  script  
+    $('#topbar li').removeClass('active');
+    var a= $("#topbar li a[href='/']")[0];
+    var li= $(a).parent().addClass('active');
