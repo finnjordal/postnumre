@@ -1,0 +1,22 @@
+extends layout
+
+block content
+  div#content.container
+    header#search.jumbotron.subhead
+      div.page-header
+        h1 Om postnumre
+    section
+      div.row
+        div.span10
+          p Formålet med nærværende web site er at udstille postnumre på en sådan måde, at de nemt kan anvendes af andre programmer. 
+          p Data stammer fra <a href='http://www.postdanmark.dk/da/Privat/Kundeservice/postnummerkort/Sider/home.aspx'>Post Danmark</a>.
+          p Kildeteksten til <em>postnumre web sitet</em> ligger på <a href='https://github.com/finnjordal/postnumre'>Github</a>.
+          p Kontaktperson: <a href="mailto:finn@jordal.dk">Finn Jordal</a>
+            .
+
+block append scripts
+  script  
+    $('#topbar li').removeClass('active');
+    var a= $("#topbar li a[href='webapi']")[0];
+    var li= $(a).parent().addClass('active');
+    

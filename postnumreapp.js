@@ -63,6 +63,14 @@ app.get(apppath + "/advsearch", function (req, res) {
   res.render('advsearch.jade');
 });
 
+app.get(apppath + "/webapi", function (req, res) {
+  res.render('webapi.jade');
+});
+
+app.get(apppath + "/about", function (req, res) {
+  res.render('about.jade');
+});
+
 function wildcard(s) {
   s = '^' + s + '$';
   return s.replace(/\*/g, '(.*)')
@@ -200,8 +208,13 @@ app.get(apppath + '/hej', auth, function (req, res) {
   res.render('upload.jade', { antal: 7, title: 'Postnumre' })
 });
 
+app.get(apppath + "/upload", function (req, res) {
+  res.render('upload.jade', { opdateret: ''});
+});
+
 app.post(apppath + '/upload', auth, function (req, res) {
-  var nr = 0;
+  var nr = 0,
+      lnr = 0;
   console.log(util.inspect({ body: req.body, files: req.files }));
   db.dropCollection('postnumre', function (err, result) {
     console.log('efter dropcollection');
@@ -219,6 +232,7 @@ app.post(apppath + '/upload', auth, function (req, res) {
       console.log("efter open. err: " + err + "db: " + db);
       console.log("file: " + req.files.upload.path);
       fs.readFileSync(req.files.upload.path, 'utf8').split('\r\n').forEach(function (line) {
+        if (lnr++ < 2) { return }; // skip overskrifter
         console.log("line: " + line);
         var fields = line.split(';');
         console.log('fields: ', util.inspect({ fields: fields }));
@@ -228,7 +242,7 @@ app.post(apppath + '/upload', auth, function (req, res) {
 
           var firma = fields[3].replace(/""/g, "'").replace(/"/g, "").replace(/'/g, '"');
           var land = landenavn(fields[5]);
-          /*  res.write(nr.toString());
+       /*   res.write(nr.toString());
           res.write(':');
           res.write(fields[0]);
           res.write(',');
@@ -241,7 +255,7 @@ app.post(apppath + '/upload', auth, function (req, res) {
           res.write(fields[4]);
           res.write(',');
           res.write(land);
-          res.write('\n'); */
+          res.write('\n'); */ 
           console.log("fields[0]: " + fields[0]);
           nr++;
           collection.insert({ 'postnr': fields[0], 'navn': fields[1], 'gade': fields[2], 'firma': firma, 'provins': fields[4], 'land': land }, { safe: true }, function (err, objects) {
@@ -255,7 +269,7 @@ app.post(apppath + '/upload', auth, function (req, res) {
           });
         };
       });
-      res.render('upload.jade', { antal: nr, title: 'Postnumre' })
+      res.render('upload.jade', { opdateret: 'Web sitet er nu opdateret og rummer ' + nr.toString() + ' postnumre' })
       //				res.write(nr + " postnumre uploaded");
       //				res.render('upload', {antal: nr});
     });

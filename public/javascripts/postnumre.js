@@ -10,7 +10,7 @@ $(function () {
 		$(id).show();
 		var a= $('#topbar li a[href='+id+']')[0];
 		var li= $(a).parent().addClass('active');
-	}); */
+	}); 
 		
 	$.ajax({
 	  url:'postnumre',
@@ -18,7 +18,8 @@ $(function () {
 	  error: fejlihentallepostnumre,
 		success: getpostnumre
 	});
-	
+	*/
+
 	$('#search').click(function(event) {
 		event.preventDefault();
 		$('#message').empty();

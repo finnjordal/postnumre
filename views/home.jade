@@ -24,3 +24,10 @@ block append scripts
     $('#topbar li').removeClass('active');
     var a= $("#topbar li a[href='/']")[0];
     var li= $(a).parent().addClass('active');
+    
+    $.ajax({
+      url:'postnumre',
+      dataType: "json",
+      error: fejlihentallepostnumre,
+      success: getpostnumre
+    });

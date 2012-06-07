@@ -1,0 +1,58 @@
+extends layout
+
+block content
+  div#content.container
+    header#search.jumbotron.subhead
+      div.page-header
+        h1 Web API
+        p Postnummer web API 
+    section
+      div.row
+        div.span10
+          p Formålet med nærværende web site er at udstille postnumre på en sådan måde, at de kan anvendes af andre programmer. Det sker vha. et web API, som er beskrevet nedenfor.
+          table.table
+            thead
+              th Ressource
+              th URL
+              th Metode
+              th Beskrivelse
+            tbody
+              tr
+                td Postnumre
+                td /postnumre?q={tekst}
+                td GET
+                td Fritekstsøgning i postnr, postnummernavn, gadenavn og firmanavn.              
+              tr 
+                td Postnumre
+                td /postnumre?postnr={postnr}&navn={navn}&gade={gade}&firma={firma}&land={land}
+                td GET
+                td Returnerer de postnumre som opfylder kriteriet. Der kan anvendes wildcard-søgning. F.eks. navn=*rød returnerer alle de 				postnumre, hvis navn ender på <em>rød</em>              
+              tr 
+                td Postnummer
+                td /postnumre/{postnr}
+                td GET
+                td Hvis postnr eksisterer modtages oplysninger om potnummeret ellers returneres http statuskoden 404.
+
+                
+          p Data returneres i JSON(P).
+          h2 Eksempler
+          h3 Postnumre, hvis navn starter med h
+          p 
+            a(href="postnumre?navn=h*") http://postnumre.jordal.dk/postnumre?navn=h*
+          h3 Postnumre, hvis navn mm. indeholder <em>holm</em> 
+          p 
+            a(href="postnumre?q=holm") http://postnumre.jordal.dk/postnumre?q=holm
+          h3 Eksisterer postnummeret 3450?
+          p 
+            a(href="postnumre/3450") http://postnumre.jordal.dk/postnumre/3450
+          h2 Kodeeksempel
+          p Et kodeeksempel på hvordan web API'et kan anvendes i forbindelse med autocomplete kan du finde 
+            a(href='kodeeksempler/autocomplete.html') her
+            .
+
+block append scripts
+  script  
+    $('#topbar li').removeClass('active');
+    var a= $("#topbar li a[href='webapi']")[0];
+    var li= $(a).parent().addClass('active');
+    

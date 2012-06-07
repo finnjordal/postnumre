@@ -1,4 +1,30 @@
-h1 Opdatering af postnumre
-p Sitet er nu befolket med #{antal} postnumre
-p 
-	a(href='/', title='Tilbage til hovedsiden') Tilbage til hovedsiden
+extends layout
+
+block content
+  div#content.container
+    header#search.jumbotron.subhead
+      div.page-header
+        h1 Opdatering
+        p Opdatering af postnumre 
+    section
+      div.row
+        div.span10
+          p Post Danmark administrerer postnumrene. Postnumrene ændres til tider. For at holde dette web site opdateret med de seneste ændringer er det  nødvendigt at opdatere sitets data. Hvis man er administrator på web sitet kan det gøres på følgende måde: 
+            ol 
+              li Hent Excel filen - indeholdende de gyldige postnumre - fra <a href='http://www.postdanmark.dk/da/Privat/Kundeservice/postnummerkort/Sider/home.aspx'>Post Danmark</a>.
+              li Åben den i Excel og gem den som en semikolonsepareret fil.
+              li Upload den kommaseparerede fil nedenfor
+
+          
+          form.well(action="/upload", enctype="multipart/form-data", method="post")
+            input.xlarge(type="file", name="upload")
+            br
+            input.btn-primary(type="submit", value="Upload")
+          p #{opdateret}
+
+block append scripts
+  script  
+    $('#topbar li').removeClass('active');
+    var a= $("#topbar li a[href='upload']")[0];
+    var li= $(a).parent().addClass('active');
+  
