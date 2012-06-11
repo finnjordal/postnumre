@@ -1,0 +1,32 @@
+!!! 5
+
+html(lang='da')
+  head
+    meta(http-equiv="Content-Type", content="text/html; charset=UTF-8")
+    meta(charset="UTF-8")
+    title Postnumre
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    meta(name="description", content="Postnumrenes web API")
+    meta(name="author", content="Finn Jordal")
+
+    link(href="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.css", rel="stylesheet")
+
+    link(rel="shortcut icon", href="favicon.ico")
+
+    script(src="http://code.jquery.com/jquery-1.7.1.min.js")
+    script(src="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.js")
+
+  body
+    div(data-role='page', data-theme='b')
+      div(data-role='header', data-theme='b')
+        h1 Find postnummer
+      div(data-role='content')
+        ul(data-role='listview', data-filter="true", data-filter-placeholder="Del af postnr, navn, gadenavn eller firma")
+          li 
+            h3 2400 København NV
+            p Gadenavn, firma
+          li 
+            h3 3450 Allerød
+            p Gadenavn, firma
+      div(data-role='footer', data-theme='b')
+        h4 Finn Jordal

@@ -71,6 +71,10 @@ app.get(apppath + "/about", function (req, res) {
   res.render('about.jade');
 });
 
+app.get(apppath + "/mobile", function (req, res) {
+  res.render('mobile.jade');
+});
+
 function wildcard(s) {
   s = '^' + s + '$';
   return s.replace(/\*/g, '(.*)')
