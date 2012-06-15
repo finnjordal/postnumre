@@ -15,13 +15,14 @@ html(lang='da')
 
     script(src="http://code.jquery.com/jquery-1.7.1.min.js")
     script(src="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.js")
+    script(src="javascripts/mobile.js")
 
   body
     div(data-role='page', data-theme='b')
       div(data-role='header', data-theme='b')
         h1 Find postnummer
       div(data-role='content')
-        ul(data-role='listview', data-filter="true", data-filter-placeholder="Del af postnr, navn, gadenavn eller firma")
+        ul#postnumre(data-role='listview', data-filter="true", data-filter-placeholder="Del af postnr, navn, gadenavn eller firma")
           li 
             h3 2400 København NV
             p Gadenavn, firma
