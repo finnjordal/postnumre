@@ -8,15 +8,6 @@ var Db = require('mongodb').Db,
   Conn = require('mongodb').Connection,
   Server = require('mongodb').Server;
 
-/* iisnode
-var apppath = '/postnumre';
-var appport = process.env.PORT;
-*/
-
-/* andre */
-var apppath = '';
-var appport = 3000;
-
 
 var app = module.exports = express.createServer();
 
@@ -55,23 +46,23 @@ app.configure('production', function () {
 
 // Routes
 
-app.get(apppath + "/", function (req, res) {
+app.get("/", function (req, res) {
   res.render('home.jade');
 });
 
-app.get(apppath + "/advsearch", function (req, res) {
+app.get("/advsearch", function (req, res) {
   res.render('advsearch.jade');
 });
 
-app.get(apppath + "/webapi", function (req, res) {
+app.get("/webapi", function (req, res) {
   res.render('webapi.jade');
 });
 
-app.get(apppath + "/about", function (req, res) {
+app.get("/about", function (req, res) {
   res.render('about.jade');
 });
 
-app.get(apppath + "/mobile", function (req, res) {
+app.get("/mobile", function (req, res) {
   res.render('mobile.jade');
 });
 
@@ -80,12 +71,12 @@ function wildcard(s) {
   return s.replace(/\*/g, '(.*)')
 }
 
-app.get(apppath + '/hej', auth, function (req, res) {
+app.get('/hej', auth, function (req, res) {
   res.writeHead(200);
   res.end('protected page');
 });
 
-app.get(apppath + '/postnumre/:id', function (req, res) {
+app.get('/postnumre/:id', function (req, res) {
   var urlquery = url.parse(req.url, true).query;
   var id = req.params.id;
   console.log('id: ' + id);
@@ -121,7 +112,7 @@ app.get(apppath + '/postnumre/:id', function (req, res) {
   });
 });
 
-app.get(apppath + '/postnumre', function (req, res) {
+app.get('/postnumre', function (req, res) {
   var urlquery = url.parse(req.url, true).query;
   var query = {};
   if (urlquery.q) {
@@ -208,15 +199,15 @@ var auth = express.basicAuth(function (user, pass, next) {
   });
 }, 'Admin area');
 
-app.get(apppath + '/hej', auth, function (req, res) {
+app.get('/hej', auth, function (req, res) {
   res.render('upload.jade', { antal: 7, title: 'Postnumre' })
 });
 
-app.get(apppath + "/upload", function (req, res) {
+app.get("/upload", function (req, res) {
   res.render('upload.jade', { opdateret: ''});
 });
 
-app.post(apppath + '/upload', auth, function (req, res) {
+app.post('/upload', auth, function (req, res) {
   var nr = 0,
       lnr = 0;
   console.log(util.inspect({ body: req.body, files: req.files }));
@@ -316,9 +307,7 @@ conn.open(function (err, database) {
   }
   else {
     db = database;
-    // app.listen(3000);
-    app.listen(appport);
-    console.log("Express server listening on port %d", appport);
-    console.log('NODE_ENV: ' + appport);
+    app.listen(process.env.PORT || 3000);
+    console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
   }
 });
